@@ -90,7 +90,9 @@ RUN git clone https://github.com/ioi/isolate.git /tmp/isolate && \
 
 ENV BOX_ROOT=/var/local/lib/isolate
 
-LABEL maintainer="Custom Judge0 4-Language Edition"
-LABEL version="2.0.0-lean"
+LABEL maintainer="IWillPinchU"
+LABEL version="1.2.0"
 LABEL base="debian-12-bookworm"
 LABEL languages="c-12,cpp-12,java-21,python-3.11"
+LABEL homepage="https://github.com/IWillPinchU/compilers"
+LABEL source_code="https://github.com/IWillPinchU/compilers"
