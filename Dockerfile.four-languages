@@ -75,11 +75,18 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     gem install bundler -v 2.4.22 --no-document
 
-# 6. Install Isolate Sandbox (compiled with libcap)
-RUN git clone https://github.com/judge0/isolate.git /tmp/isolate && \
+# 6. Install Isolate Sandbox v2 (compiled with libcap for cgroup v2 support)
+ENV ISOLATE_REF=v2.0
+RUN git clone https://github.com/ioi/isolate.git /tmp/isolate && \
     cd /tmp/isolate && \
-    make -j$(nproc) install && \
-    rm -rf /tmp/isolate
+    git checkout ${ISOLATE_REF} && \
+    make -j$(nproc) isolate && \
+    cp isolate /usr/local/bin/isolate && \
+    chmod u+s /usr/local/bin/isolate && \
+    mkdir -p /usr/local/etc /run/isolate/locks && \
+    cp default.cf /usr/local/etc/isolate && \
+    sed -i 's/^num_boxes\s*=.*/num_boxes = 2147483647/' /usr/local/etc/isolate && \
+    cd / && rm -rf /tmp/isolate
 
 ENV BOX_ROOT=/var/local/lib/isolate
 
