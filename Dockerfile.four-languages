@@ -79,6 +79,7 @@ RUN apt-get update && \
 RUN git clone https://github.com/judge0/isolate.git /tmp/isolate && \
     cd /tmp/isolate && \
     make -j$(nproc) install && \
+    sed -i 's/^num_boxes\s*=.*/num_boxes = 2147483647/' /usr/local/etc/isolate 2>/dev/null || true && \
     rm -rf /tmp/isolate
 
 ENV BOX_ROOT=/var/local/lib/isolate
